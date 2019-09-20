@@ -3,31 +3,28 @@ package me.study.springbootautowired;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.context.ApplicationContext;
-import org.springframework.core.env.Environment;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
+import java.util.Locale;
 
+/**
+ * Created by dongchul on 2019-09-20.
+ */
 @Component
 public class AppRunner implements ApplicationRunner {
+
     @Autowired
-    ApplicationContext ctx;
+    MessageSource messageSource;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        Environment environment = ctx.getEnvironment();
-        /**
-         * Profile : 빈들의 그룹
-         */
-        System.out.println(Arrays.toString(environment.getActiveProfiles()));
-        System.out.println(Arrays.toString(environment.getDefaultProfiles()));
+        while (true) {
+            System.out.println(messageSource.getMessage("greeting", new String[]{"dongchul"}, Locale.KOREA));
+            System.out.println(messageSource.getMessage("greeting", new String[]{"dongchul"}, Locale.getDefault()));
+            Thread.sleep(1000);
+        }
 
-        /**
-         * Property
-         */
-
-        System.out.println(environment.getProperty("app.ddd"));
 
     }
 }
