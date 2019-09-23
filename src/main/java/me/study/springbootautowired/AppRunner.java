@@ -7,9 +7,13 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 
 /**
  * Created by dongchul on 2019-09-23.
@@ -18,16 +22,27 @@ import java.nio.file.Path;
 public class AppRunner implements ApplicationRunner {
 
     @Autowired
-    ApplicationContext resourceLoader;
+    Validator validator;
+
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        System.out.println(resourceLoader.getClass());
+        System.out.println(validator);
 
-        Resource resource = resourceLoader.getResource("classpath:test.txt");
-        System.out.println(resource.getClass());
-        System.out.println(resource.exists());
-        System.out.println(resource.getDescription());
-        System.out.println(Files.readString(Path.of(resource.getURI())));
+        Event event = new Event();
+        event.setLimit(-1);
+        event.setEmail("daf");
+        EventValidator eventValidator = new EventValidator();
+        Errors errors = new BeanPropertyBindingResult(event, "event");
+
+        //eventValidator.validate(event, errors);
+        validator.validate(event, errors);
+        System.out.println(errors.hasErrors());
+
+        errors.getAllErrors().forEach(e -> {
+            System.out.println("===== error code =====");
+            Arrays.stream(e.getCodes()).forEach(System.out::println);
+            System.out.println(e.getDefaultMessage());
+        });
     }
 }
