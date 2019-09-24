@@ -1,12 +1,16 @@
 package me.study.springbootautowired;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.expression.Expression;
+import org.springframework.expression.ExpressionParser;
+import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
@@ -23,11 +27,12 @@ import java.util.Arrays;
 public class AppRunner implements ApplicationRunner {
 
     @Autowired
-    ConversionService conversionService;
+    EventService eventService;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        System.out.println(conversionService); // 등록된 converter를 확인 하는 방법.
-        System.out.println(conversionService.getClass().toString());
+        eventService.createEvent();
+        eventService.publishEvent();
+        eventService.deleteEvent();
     }
 }
