@@ -21,28 +21,8 @@ import java.util.Arrays;
 @Component
 public class AppRunner implements ApplicationRunner {
 
-    @Autowired
-    Validator validator;
-
-
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        System.out.println(validator);
 
-        Event event = new Event();
-        event.setLimit(-1);
-        event.setEmail("daf");
-        EventValidator eventValidator = new EventValidator();
-        Errors errors = new BeanPropertyBindingResult(event, "event");
-
-        //eventValidator.validate(event, errors);
-        validator.validate(event, errors);
-        System.out.println(errors.hasErrors());
-
-        errors.getAllErrors().forEach(e -> {
-            System.out.println("===== error code =====");
-            Arrays.stream(e.getCodes()).forEach(System.out::println);
-            System.out.println(e.getDefaultMessage());
-        });
     }
 }
