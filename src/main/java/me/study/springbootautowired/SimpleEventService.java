@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 public class SimpleEventService implements EventService {
 
     @Override
+    @PerfLogging
     public void createEvent() {
         try {
             Thread.sleep(1000);
@@ -17,6 +18,7 @@ public class SimpleEventService implements EventService {
     }
 
     @Override
+    @PerfLogging
     public void publishEvent() {
         try {
             Thread.sleep(2000);
