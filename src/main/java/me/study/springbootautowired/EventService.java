@@ -1,9 +1,17 @@
 package me.study.springbootautowired;
 
-public interface EventService {
-    void createEvent();
+import org.springframework.lang.NonNull;
+import org.springframework.stereotype.Service;
 
-    void publishEvent();
+/**
+ * Created by dongchul on 2019-09-26.
+ */
+@Service
+public class EventService {
 
-    void deleteEvent();
+    //ide compile option 에서 추가를 해줘야 한다.
+    @NonNull
+    public String createEvent(@NonNull String name) {
+        return "hello" + name;
+    }
 }
